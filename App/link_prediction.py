@@ -19,7 +19,7 @@ print(f'Using device: {device}')
 ### data load
 loader = WikiMathsDatasetLoader()
 dataset = loader.get_dataset()
-dataset=dataset.to(device)
+
 
 # train, test 
 train_dataset, test_dataset = temporal_signal_split(dataset, train_ratio=0.8)
@@ -41,15 +41,18 @@ def train():
     for snapshot in train_data_list:
         edge_index = snapshot.train_pos_edge_index
         neg_edge_index = snapshot.train_neg_edge_index
-        y = torch.cat([torch.ones(edge_index.size(1)), torch.zeros(neg_edge_index.size(1))], dim=0)
 
-        edge_index_combined = torch.cat([edge_index, neg_edge_index], dim=1)
+        y = torch.cat([torch.ones(edge_index.size(1)), torch.zeros(neg_edge_index.size(1))], dim=0).to(device)
+        edge_index_combined = torch.cat([edge_index, neg_edge_index], dim=1).to(device)
+
         y_hat = model(snapshot.x, edge_index_combined)
+
         loss = F.binary_cross_entropy_with_logits(y_hat.squeeze(), y)
         cost += loss.item()
         optimizer.zero_grad()
         loss.backward()
         optimizer.step()
+
     return cost / len(train_data_list)
 
 def test():
@@ -58,10 +61,12 @@ def test():
     for snapshot in test_data_list:
         edge_index = snapshot.test_pos_edge_index
         neg_edge_index = snapshot.test_neg_edge_index
-        y = torch.cat([torch.ones(edge_index.size(1)), torch.zeros(neg_edge_index.size(1))], dim=0)
 
-        edge_index_combined = torch.cat([edge_index, neg_edge_index], dim=1)
+        y = torch.cat([torch.ones(edge_index.size(1)), torch.zeros(neg_edge_index.size(1))], dim=0).to(device)
+        edge_index_combined = torch.cat([edge_index, neg_edge_index], dim=1).to(device)
+
         y_hat = model(snapshot.x, edge_index_combined)
+        
         loss = F.binary_cross_entropy_with_logits(y_hat.squeeze(), y)
         cost += loss.item()
     return cost / len(test_data_list)
