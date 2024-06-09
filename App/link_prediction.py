@@ -4,7 +4,7 @@ import torch.nn.functional as F
 from torch_geometric.data import Data
 from torch_geometric.utils import train_test_split_edges
 
-from torch_geometric_temporal.dataset import WikipediaDatasetLoader
+from torch_geometric_temporal.dataset import WikiMathsDatasetLoader
 from torch_geometric_temporal.signal import temporal_signal_split
 
 from evolve_gcn import EvolveGCN_H
@@ -17,7 +17,7 @@ print(f'Using device: {device}')
 
 
 ### data load
-loader = WikipediaDatasetLoader()
+loader = WikiMathsDatasetLoader()
 dataset = loader.get_dataset()
 dataset=dataset.to(device)
 
