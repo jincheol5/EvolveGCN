@@ -73,6 +73,8 @@ for epoch in tqdm(range(1, epochs + 1)):
 
     for i, snapshot in enumerate(train_dataset):
         train(snapshot)
+        auc, ap = test(snapshot)
+        print('Epoch: {:03d}, AUC: {:.4f}, AP: {:.4f}'.format(epoch, auc, ap))
 
 # test
 auc, ap = test(test_dataset[0])
