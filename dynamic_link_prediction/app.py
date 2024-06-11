@@ -56,11 +56,16 @@ def train(snapshot):
     return float(loss)
 
 
-def test(x,train_pos_edge_index,pos_edge_index, neg_edge_index):
+def test(snapshot):
     model.eval()
+
+    snapshot= train_test_split_edges(snapshot)
+    x = snapshot.x.to(device)
+    train_pos_edge_index = snapshot.train_pos_edge_index.to(device)
+
     with torch.no_grad():
         z = model.encode(x, train_pos_edge_index)
-    return model.test(z, pos_edge_index, neg_edge_index)
+    return model.test(z, snapshot.test_pos_edge_index, snapshot.test_neg_edge_index)
 
 # train
 epochs = 100
@@ -68,3 +73,7 @@ for epoch in tqdm(range(1, epochs + 1)):
 
     for i, snapshot in enumerate(train_dataset):
         train(snapshot)
+
+# test
+auc, ap = test(test_dataset[0])
+print('Epoch: {:03d}, AUC: {:.4f}, AP: {:.4f}'.format(epoch, auc, ap))
