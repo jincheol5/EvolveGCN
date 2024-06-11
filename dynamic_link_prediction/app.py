@@ -6,6 +6,23 @@ from torch_geometric_temporal.signal import temporal_signal_split
 from torch_geometric_temporal.dataset import TwitterTennisDatasetLoader
 from model import EvolveGCN_H_Encoder
 from tqdm import tqdm
+import numpy as np
+import random
+import os
+
+# random seed
+random_seed= 42
+random.seed(random_seed)
+np.random.seed(random_seed)
+os.environ["PYTHONHASHSEED"] = str(random_seed)
+torch.manual_seed(random_seed)
+torch.cuda.manual_seed(random_seed)
+torch.cuda.manual_seed_all(random_seed)
+torch.backends.cudnn.deterministic = True
+torch.backends.cudnn.benchmark = False
+torch.use_deterministic_algorithms(False)
+
+
 
 # 데이터셋 로드 및 전처리
 # TwitterTennis dataset은 dynamic graph temporal signal
@@ -73,9 +90,9 @@ for epoch in tqdm(range(1, epochs + 1)):
 
     for i, snapshot in enumerate(train_dataset):
         train(snapshot)
-        auc, ap = test(snapshot)
-        print('Epoch: {:03d}, AUC: {:.4f}, AP: {:.4f}'.format(epoch, auc, ap))
+        # auc, ap = test(snapshot)
+        # print('Epoch: {:03d}, AUC: {:.4f}, AP: {:.4f}'.format(epoch, auc, ap))
 
 # test
 auc, ap = test(test_dataset[0])
-print('Epoch: {:03d}, AUC: {:.4f}, AP: {:.4f}'.format(epoch, auc, ap))
+print('AUC: {:.4f}, AP: {:.4f}'.format(auc, ap))
