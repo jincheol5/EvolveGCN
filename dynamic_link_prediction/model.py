@@ -8,6 +8,6 @@ class EvolveGCN_H_Encoder(torch.nn.Module):
         super().__init__()
         self.recurruent = EvolveGCNH(num_of_nodes,in_channels) 
 
-    def forward(self, x, edge_index, edge_weight):
+    def forward(self, x, edge_index, edge_weight=None):
         x = self.recurruent(x, edge_index, edge_weight)
         return F.relu(x)
