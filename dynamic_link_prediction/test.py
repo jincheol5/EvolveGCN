@@ -1,5 +1,5 @@
 import torch
-from torch_geometric_temporal.signal import TwitterTennisDatasetLoader
+from torch_geometric_temporal.dataset import TwitterTennisDatasetLoader
 
 # 데이터셋 로드
 loader = TwitterTennisDatasetLoader()
