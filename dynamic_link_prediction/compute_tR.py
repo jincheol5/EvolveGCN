@@ -10,6 +10,7 @@ dataset = loader.get_dataset()
 
 snapshot=dataset[0]
 
+print(snapshot.x.shape[0])
 
 # edge_index로부터 NetworkX 그래프 생성
 edge_index = snapshot.edge_index.numpy()
@@ -29,3 +30,5 @@ print("COO 형식의 도달 가능성 행렬:")
 print("data:", coo_reachability_matrix.data)
 print("row indices:", coo_reachability_matrix.row)
 print("col indices:", coo_reachability_matrix.col)
+
+print(len(coo_reachability_matrix.row))
