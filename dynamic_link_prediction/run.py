@@ -3,7 +3,6 @@ import torch.nn.functional as F
 from torch_geometric.nn import GAE
 from torch_geometric.utils import train_test_split_edges
 from torch_geometric_temporal.signal import temporal_signal_split
-from torch_geometric_temporal.dataset import TwitterTennisDatasetLoader
 from torch_geometric_temporal.dataset import WikiMathsDatasetLoader
 from model import EvolveGCN_H_Encoder
 from tqdm import tqdm
@@ -26,7 +25,6 @@ torch.use_deterministic_algorithms(False)
 
 
 # 데이터셋 로드 및 전처리
-# TwitterTennis dataset은 dynamic graph temporal signal
 # node수는 고정 
 loader = WikiMathsDatasetLoader()
 dataset = loader.get_dataset()
