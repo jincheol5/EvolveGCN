@@ -17,10 +17,13 @@ class EvolveGCN_H_Encoder(torch.nn.Module):
     def __init__(self, num_of_nodes,in_channels):
         super().__init__()
         self.recurruent = EvolveGCNH(num_of_nodes,in_channels)
-        self.conv1= GCNConv(in_channels,in_channels)
+        self.conv1= GCNConv(in_channels,16)
+        self.conv2= GCNConv(16,in_channels)
 
     def forward(self, x, edge_index, edge_weight=None):
         x = self.recurruent(x, edge_index, edge_weight)
         x = F.relu(x)
         x = self.conv1(x,tR_indices)
+        x = F.relu(x)
+        x = self.conv2(x,tR_indices)
         return x
