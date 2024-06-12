@@ -27,6 +27,7 @@ def get_tR_matrix(snapshot):
     coo_reachability_matrix = coo_matrix(reachability_matrix)
 
     # 인덱스들을 LongTensor로 변환
-    coo_tensor = torch.LongTensor([coo_reachability_matrix.row, coo_reachability_matrix.col])
+    indices = np.vstack((coo_reachability_matrix.row, coo_reachability_matrix.col))
+    coo_tensor = torch.LongTensor(indices)
 
     return coo_tensor
