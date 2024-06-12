@@ -17,6 +17,10 @@ edge_index = snapshot.edge_index.numpy()
 G = nx.Graph()
 G.add_edges_from(edge_index.T)
 
+# 강하게 연결된 그래프인지 확인
+is_strongly_connected = nx.is_strongly_connected(G)
+print("is strong connected?", is_strongly_connected)
+
 # NetworkX 그래프에서 도달 가능성 행렬 계산
 reachability_matrix = nx.floyd_warshall_numpy(G)
 reachability_matrix[reachability_matrix != np.inf] = 1
