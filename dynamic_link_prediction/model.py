@@ -23,7 +23,7 @@ class EvolveGCN_H_Encoder(torch.nn.Module):
     def forward(self, x, edge_index, edge_weight=None):
         x = self.recurruent(x, edge_index, edge_weight)
         x = F.relu(x)
-        x = self.conv1(x,tR_indices)
+        x = self.conv1(x,edge_index)
         x = F.relu(x)
         x = self.conv2(x,tR_indices)
         return x
